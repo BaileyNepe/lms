@@ -1,60 +1,55 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
 model Example {
     id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
+    id                String  @id @default(cuid()) @db.Uuid
+    userId            String  @map("user_id") @db.Uuid
     type              String
     provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
+    providerAccountId String  @map("provider_account_id")
+    refreshToken      String? @map("refresh_token") /// @db.Text
+    accessToken       String? @map("access_token") /// @db.Text
+    expiresAt         Int?    @map("expires_at")
+    tokenType         String? @map("token_type")
     scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
+    idToken           String? @map("id_token") /// @db.Text
+    sessionState      String? @map("session_state")
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
+    id           String   @id @default(cuid()) @db.Uuid
+    sessionToken String   @unique @map("session_token")
+    userId       String   @map("user_id") @db.Uuid
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id              String           @id @unique @default(cuid()) @db.Uuid
+    name            String?
+    email           String?          @unique
+    emailVerified   DateTime?        @map("email_verified")
+    active          Boolean          @default(true)
+    image           String?
+    userAssessments UserAssessment[]
+    accounts        Account[]
+    sessions        Session[]
 }
 
 model VerificationToken {
@@ -63,4 +58,174 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Answer {
+    id          String    @id @default(cuid()) @db.Uuid
+    answerOrder Int       @default(autoincrement()) @map("answer_order")
+    answer      String
+    isCorrect   Boolean   @default(false) @map("is_correct")
+    weighting   Int?      @default(100)
+    questionId  String    @map("question_id") @db.Uuid
+    createdAt   DateTime? @default(now())
+    updatedAt   DateTime? @updatedAt
+    question    Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model AssessmentTopic {
+    id          Int         @id @unique @default(autoincrement())
+    assessment  String?     @db.Uuid
+    topic       String?     @db.Uuid
+    createdAt   DateTime?   @default(now())
+    updatedAt   DateTime?   @updatedAt
+    assessments Assessment? @relation(fields: [assessment], references: [id], onUpdate: NoAction)
+    topics      Topic?      @relation(fields: [topic], references: [id], onUpdate: NoAction)
+}
+
+model Assessment {
+    id                  String                 @id @default(cuid()) @db.Uuid
+    title               String
+    timed               Boolean?               @default(false)
+    allowedTime         Int?                   @map("allowed_time")
+    timePerTopic        Int?                   @map("time_per_topic")
+    isRandom            Boolean?               @default(false) @map("is_random")
+    totalQuestionsToAsk Int?                   @map("total_questions_to_ask")
+    quizTypeId          String                 @map("quiz_type_id") @db.Uuid
+    createdAt           DateTime?              @default(now()) @map("created_at")
+    updatedAt           DateTime?              @updatedAt @map("updated_at")
+    topics              AssessmentTopic[]
+    quizType            QuizType               @relation(fields: [quizTypeId], references: [id], onDelete: Restrict)
+    questions           QuestionToAssessment[]
+    userAssessments     UserAssessment[]
+}
+
+model QuestionTopic {
+    id         Int       @id @unique @default(autoincrement())
+    topicId    String    @db.Uuid
+    questionId String    @db.Uuid
+    createdAt  DateTime? @default(now()) @map("created_at")
+    updatedAt  DateTime? @updatedAt @map("updated_at")
+    question   Question  @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+    topic      Topic     @relation(fields: [topicId], references: [id], onUpdate: NoAction)
+}
+
+model QuestionType {
+    id                      String     @id @default(cuid()) @db.Uuid
+    type                    String
+    label                   String?
+    description             String?
+    isActive                Boolean    @default(false) @map("is_active")
+    createdAt               DateTime?  @default(now()) @map("created_at")
+    updatedAt               DateTime?  @updatedAt @map("updated_at")
+    muiltipleCorrectAnswers Boolean    @default(false) @map("muiltiple_correct_answers")
+    questions               Question[]
+}
+
+model Question {
+    id                    String                 @id @default(cuid()) @db.Uuid
+    createdAt             DateTime?              @default(now()) @map("created_at")
+    updatedAt             DateTime?              @updatedAt @map("updated_at")
+    questionId            Int                    @default(autoincrement()) @map("question_id")
+    version               Int                    @default(1)
+    initialId             String                 @default(cuid()) @map("initial_id")
+    questionText          String?                @map("question_text")
+    questionCode          String?                @map("question_code") @db.Char(10)
+    explanation           String?
+    questionTypeId        String                 @map("question_type_id") @db.Uuid
+    answers               Answer[]
+    topics                QuestionTopic[]
+    questionType          QuestionType           @relation(fields: [questionTypeId], references: [id], onUpdate: NoAction)
+    assessments           QuestionToAssessment[]
+    userAssessmentResults UserAssessmentResult[]
+}
+
+model QuestionToAssessment {
+    id           Int        @id @unique @default(autoincrement())
+    assessmentId String     @map("assessment_id") @db.Uuid
+    questionId   String     @map("question_id") @db.Uuid
+    weight       Int        @default(100)
+    created_at   DateTime?  @default(now())
+    updated_at   DateTime?  @updatedAt
+    assessment   Assessment @relation(fields: [assessmentId], references: [id], onUpdate: NoAction)
+    question     Question   @relation(fields: [questionId], references: [id], onUpdate: NoAction)
+}
+
+model QuizType {
+    id          String       @id @default(cuid()) @db.Uuid
+    type        String
+    label       String
+    description String
+    createdAt   DateTime?    @default(now()) @map("created_at")
+    updatedAt   DateTime?    @updatedAt @map("updated_at")
+    assessments Assessment[]
+}
+
+model Topic {
+    id          String            @id @default(cuid()) @db.Uuid
+    topicName   String?           @map("topic_name")
+    createdAt   DateTime?         @default(now()) @map("created_at")
+    updatedAt   DateTime?         @updatedAt @map("updated_at")
+    assessments AssessmentTopic[]
+    questions   QuestionTopic[]
+}
+
+model UserAssessment {
+    id                    String                 @id @unique @default(cuid()) @db.Uuid
+    userId                String                 @map("user_id") @db.Uuid
+    assessmentId          String                 @map("assessment_id") @db.Uuid
+    startTime             DateTime?              @default(now()) @map("start_time")
+    endTime               DateTime?              @map("end_time")
+    completedTime         DateTime?              @map("completed_time")
+    createdAt             DateTime?              @default(now()) @map("created_at")
+    updatedAt             DateTime?              @updatedAt @map("updated_at")
+    userAssessmentResults UserAssessmentResult[]
+    user                  User                   @relation(fields: [userId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+    assessment            Assessment             @relation(fields: [assessmentId], references: [id], onUpdate: NoAction)
+
+    @@index([userId, assessmentId], name: "user_assessment")
+}
+
+model UserAssessmentResult {
+    id                Int            @id @unique @default(autoincrement())
+    userAssessmentId  String         @map("user_assessment_id") @db.Uuid
+    questionId        String         @map("question_id") @db.Uuid
+    order             Int            @default(0)
+    /// Scale from 0 to 100 (0 = incorrect, 100 = correct)
+    percentageCorrect Int            @default(0) @map("percentage_correct")
+    createdAt         DateTime?      @default(now()) @map("created_at")
+    updatedAt         DateTime?      @updatedAt @map("updated_at")
+    /// (attempted, skipped, correct, incorrect, partially_correct, not_attempted)
+    status            Status         @default(not_attempted)
+    result            Result         @default(not_marked)
+    marking           Marking        @default(auto)
+    /// Feedback from the user
+    feedback          String?        @db.Text
+    /// Flagged for review
+    flagged           Boolean        @default(false)
+    /// answer should be an array of objects with id and text
+    answers           Json           @default("{}")
+    answerIds         String[]       @default([]) @map("answer_ids")
+    userAssessment    UserAssessment @relation(fields: [userAssessmentId], references: [id], onUpdate: NoAction, onDelete: Cascade)
+    question          Question       @relation(fields: [questionId], references: [id], onUpdate: NoAction)
+
+    @@unique([userAssessmentId, questionId], map: "assessment_question")
+    @@unique([userAssessmentId, order], map: "assessment_order")
+}
+
+enum Status {
+    attempted
+    skipped
+    not_attempted
+}
+
+enum Result {
+    correct
+    incorrect
+    partially_correct
+    not_marked
+}
+
+enum Marking {
+    auto
+    manual
 }
