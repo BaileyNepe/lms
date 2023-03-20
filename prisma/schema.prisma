@@ -9,47 +9,47 @@ datasource db {
 
 model Example {
     id        String   @id @default(cuid())
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid()) @db.Uuid
-    userId            String  @map("user_id") @db.Uuid
+    id                String  @id @default(cuid())
+    userId            String
     type              String
     provider          String
-    providerAccountId String  @map("provider_account_id")
-    refreshToken      String? @map("refresh_token") /// @db.Text
-    accessToken       String? @map("access_token") /// @db.Text
-    expiresAt         Int?    @map("expires_at")
-    tokenType         String? @map("token_type")
+    providerAccountId String
+    refresh_token     String? // @db.Text
+    access_token      String? // @db.Text
+    expires_at        Int?
+    token_type        String?
     scope             String?
-    idToken           String? @map("id_token") /// @db.Text
-    sessionState      String? @map("session_state")
+    id_token          String? // @db.Text
+    session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid()) @db.Uuid
-    sessionToken String   @unique @map("session_token")
-    userId       String   @map("user_id") @db.Uuid
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id              String           @id @unique @default(cuid()) @db.Uuid
+    id              String           @id @default(cuid())
     name            String?
     email           String?          @unique
-    emailVerified   DateTime?        @map("email_verified")
-    active          Boolean          @default(true)
+    emailVerified   DateTime?
     image           String?
-    userAssessments UserAssessment[]
+    active          Boolean          @default(true)
     accounts        Account[]
     sessions        Session[]
+    userAssessments UserAssessment[]
 }
 
 model VerificationToken {
@@ -171,7 +171,7 @@ model Topic {
 
 model UserAssessment {
     id                    String                 @id @unique @default(cuid()) @db.Uuid
-    userId                String                 @map("user_id") @db.Uuid
+    userId                String                 @map("user_id")
     assessmentId          String                 @map("assessment_id") @db.Uuid
     startTime             DateTime?              @default(now()) @map("start_time")
     endTime               DateTime?              @map("end_time")
