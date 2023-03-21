@@ -42,7 +42,7 @@ const HamburgerMenuButton = styled(IconButton)`
 `;
 
 const Header = ({ links }: { links: { text: string; href: string }[] }) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(true);
 
   const toggleDrawer = (open: boolean) => {
     setDrawerOpen(open);

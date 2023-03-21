@@ -9,6 +9,7 @@ export const homeLinks = [
   { text: "Home", href: "/" },
   { text: "About", href: "/about" },
   { text: "Contact", href: "/contact" },
+  { text: "Dashboard", href: "/dashboard" },
 ];
 
 export const socials = [
