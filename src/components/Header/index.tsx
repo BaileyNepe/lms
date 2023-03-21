@@ -17,7 +17,7 @@ import styled from "styled-components";
 import Auth from "../Auth";
 
 const StyledAppBar = styled(AppBar)`
-  background-color: #3f51b5;
+  background-color: ${({ theme }) => theme.palette.primary.main};
 `;
 
 const Logo = styled(Typography)`

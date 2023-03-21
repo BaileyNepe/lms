@@ -12,15 +12,16 @@ import styled from "styled-components";
 import { footerLinks, socials } from "~/routes";
 
 const StyledFooter = styled(Box)`
-  background: linear-gradient(135deg, #2e026d 55%, #15162c 5%);
-  color: lightgrey;
+  ${({ theme }) =>
+    `background: linear-gradient(135deg, ${theme.palette.primary.main} 55%, ${theme.palette.primary.dark} 5%);`}
+  color: ${({ theme }) => theme.palette.common.white};
   padding: 1.5rem 0;
 `;
 
 const FooterLink = styled(MuiLink)`
   color: inherit;
   text-decoration: none;
-  color: lightgrey;
+  color: ${({ theme }) => theme.palette.common.white};
   display: block;
   margin-bottom: 0.5rem;
 `;
@@ -28,12 +29,12 @@ const FooterLink = styled(MuiLink)`
 const SocialIcon = styled(IconButton)`
   color: inherit;
   margin-right: 0.5rem;
-  color: #ffffff;
+  color: ${({ theme }) => theme.palette.common.white};
 `;
 
 const BoldTypography = styled(Typography)`
   font-weight: bold;
-  color: #ffffff;
+  color: ${({ theme }) => theme.palette.common.white};
 `;
 
 const Footer = () => {
