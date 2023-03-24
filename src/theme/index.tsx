@@ -21,15 +21,15 @@ import customShadows from "./shadows";
 // types
 import { TypographyOptions } from "@mui/material/styles/createTypography";
 
-interface Props {
+export default function ThemeCustomization({
+  children,
+}: {
   children: ReactNode;
-}
-
-export default function ThemeCustomization({ children }: Props) {
+}) {
   const { borderRadius, fontFamily, navType, outlinedFilled, presetColor } =
     useConfig();
 
-  const theme: Theme = useMemo<Theme>(
+  const theme = useMemo(
     () => Palette(navType, presetColor),
     [navType, presetColor]
   );
@@ -61,7 +61,7 @@ export default function ThemeCustomization({ children }: Props) {
     [theme, themeCustomShadows, themeTypography]
   );
 
-  const themes: Theme = createTheme(themeOptions);
+  const themes = createTheme(themeOptions);
   themes.components = useMemo(
     () => componentStyleOverrides(themes, borderRadius, outlinedFilled),
     [themes, borderRadius, outlinedFilled]

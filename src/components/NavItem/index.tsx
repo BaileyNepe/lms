@@ -29,14 +29,9 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Link from "next/link";
 import { LinkTarget, NavItemType } from "~/types/navItems";
 
-interface NavItemProps {
-  item: NavItemType;
-  level: number;
-}
-
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
-const NavItem = ({ item, level }: NavItemProps) => {
+const NavItem = ({ item, level }: { item: NavItemType; level: number }) => {
   const theme = useTheme();
   const { pathname } = window.location;
   const matchesSM = useMediaQuery(theme.breakpoints.down("lg"));
