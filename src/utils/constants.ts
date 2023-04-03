@@ -1,1 +1,1 @@
-export const DRAW_WIDTH = 250;
+export const DRAW_WIDTH = 280;

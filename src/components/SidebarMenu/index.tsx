@@ -10,6 +10,8 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 // project imports
 import LogoSection from "~/components/LogoSection";
 import MenuList from "~/components/MenuList";
+import { useDispatch, useSelector } from "~/store";
+import { openDrawer } from "~/store/slices/menu";
 import { DRAW_WIDTH } from "~/utils/constants";
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
@@ -18,7 +20,8 @@ const Sidebar = ({ window }: { window?: Window }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const dispatch = useDispatch();
+  const { drawerOpen } = useSelector((state) => state.menu);
 
   const logo = useMemo(
     () => (
@@ -60,7 +63,7 @@ const Sidebar = ({ window }: { window?: Window }) => {
         variant={matchUpMd ? "persistent" : "temporary"}
         anchor="left"
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        onClose={() => dispatch(openDrawer(!drawerOpen))}
         sx={{
           "& .MuiDrawer-paper": {
             width: DRAW_WIDTH,

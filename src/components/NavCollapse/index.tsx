@@ -30,7 +30,7 @@ const NavCollapse = ({
   const theme = useTheme();
   const { borderRadius } = useConfig();
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null | undefined>(null);
 
   const handleClick = () => {

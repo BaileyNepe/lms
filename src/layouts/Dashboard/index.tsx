@@ -6,6 +6,9 @@ import { styled, Theme, useTheme } from "@mui/material/styles";
 
 // project imports
 import Sidebar from "~/components/SidebarMenu";
+import { useDispatch, useSelector } from "~/store";
+import { openDrawer } from "~/store/slices/menu";
+import Header from "./Header";
 
 // assets
 // import { IconChevronRight } from '@tabler/icons';
@@ -66,9 +69,16 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const matchDownMd = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const header = useMemo(() => <Toolbar>{/* <Header /> */}</Toolbar>, []);
+  const dispatch = useDispatch();
+  const { drawerOpen } = useSelector((state) => state.menu);
+
+  useEffect(() => {
+    dispatch(openDrawer(!matchDownMd));
+  }, [dispatch, matchDownMd]);
+
+  const header = useMemo(() => <Toolbar>{<Header />}</Toolbar>, []);
 
   return (
     <Box sx={{ display: "flex" }}>
