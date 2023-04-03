@@ -3,7 +3,6 @@ import {
   ForwardRefExoticComponent,
   RefAttributes,
   useEffect,
-  useState,
 } from "react";
 
 // material-ui
@@ -27,6 +26,8 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 // types
 import Link from "next/link";
+import { dispatch, useDispatch, useSelector } from "~/store";
+import { activeItem, openDrawer } from "~/store/slices/menu";
 import { LinkTarget, NavItemType } from "~/types/navItems";
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
@@ -37,7 +38,8 @@ const NavItem = ({ item, level }: { item: NavItemType; level: number }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down("lg"));
 
   const { borderRadius } = useConfig();
-  const [selectedItem, setSelectedItem] = useState<string[]>([]);
+  const dispatch = useDispatch();
+  const { selectedItem } = useSelector((state) => state.menu);
 
   const Icon = item.icon as React.ElementType;
   const itemIcon = item.icon ? (
@@ -73,8 +75,8 @@ const NavItem = ({ item, level }: { item: NavItemType; level: number }) => {
   }
 
   const itemHandler = (id: string) => {
-    // dispatch(activeItem([id]));
-    // matchesSM && dispatch(openDrawer(false));
+    dispatch(activeItem([id]));
+    matchesSM && dispatch(openDrawer(false));
   };
 
   // active menu item on page load
@@ -83,8 +85,8 @@ const NavItem = ({ item, level }: { item: NavItemType; level: number }) => {
       .toString()
       .split("/")
       .findIndex((id) => id === item.id);
-    if (currentIndex > -1) {
-      // dispatch(activeItem([item.id]));
+    if (currentIndex > -1 && item.id) {
+      dispatch(activeItem([item.id]));
     }
     // eslint-disable-next-line
   }, [pathname]);

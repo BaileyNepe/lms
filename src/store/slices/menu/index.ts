@@ -1,21 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type MenuProps = {
-  selectedItem: string[];
-  drawerOpen: boolean;
-};
-
-// initial state
-const initialState: MenuProps = {
-  selectedItem: ["dashboard"],
-  drawerOpen: true,
-};
-
-// ==============================|| SLICE - MENU ||============================== //
-
 const menu = createSlice({
   name: "menu",
-  initialState,
+  initialState: {
+    selectedItem: ["dashboard"],
+    drawerOpen: true,
+  },
   reducers: {
     activeItem(state, action: PayloadAction<string[]>) {
       state.selectedItem = action.payload;
