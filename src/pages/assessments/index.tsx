@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -11,7 +10,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import styled, { ThemeConsumer, useTheme } from "styled-components";
-import withDashboardLayout from "~/HOC/withDashboardLayout";
+import { withAuthDashboard } from "~/HOC/withDashboardLayout";
 
 const assessmentOptions = [
   {
@@ -48,7 +47,7 @@ const AssessmentCard = styled(
     href: string;
     action: string;
   }) => (
-    <Grid item xs={12} sm={6} md={4} lg={3} {...props}>
+    <Grid item xs={12} sm={6} {...props}>
       <Card sx={{ height: "100%", boxShadow: useTheme().customShadows.z1 }}>
         <CardContent sx={{ display: "flex", flexDirection: "column" }}>
           <Typography variant="h5" fontWeight="bold" gutterBottom>
@@ -76,7 +75,7 @@ const AssessmentCard = styled(
 const Assessments = () => {
   return (
     <Container>
-      <Typography variant="h4" sx={{ mt: 4, mb: 6, textAlign: "center" }}>
+      <Typography variant="h2" sx={{ mt: 4, mb: 6, textAlign: "center" }}>
         Assessments
       </Typography>
       <Grid container spacing={4} justifyContent="center">
@@ -87,4 +86,4 @@ const Assessments = () => {
     </Container>
   );
 };
-export default withDashboardLayout(Assessments);
+export default withAuthDashboard(Assessments);
