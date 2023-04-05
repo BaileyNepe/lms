@@ -42,7 +42,7 @@ const HamburgerMenuButton = styled(IconButton)`
 `;
 
 const Header = ({ links }: { links: { text: string; href: string }[] }) => {
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open: boolean) => {
     setDrawerOpen(open);
@@ -52,7 +52,7 @@ const Header = ({ links }: { links: { text: string; href: string }[] }) => {
     <Box role="presentation" sx={{ width: 250 }}>
       <List>
         {links.map((link, index) => (
-          <Link key={index} href={link.href} passHref>
+          <Link key={`${index}${link}`} href={link.href} passHref>
             <ListItem>
               <ListItemText primary={link.text} />
             </ListItem>
@@ -68,7 +68,7 @@ const Header = ({ links }: { links: { text: string; href: string }[] }) => {
         <Logo variant="h6">Your Logo</Logo>
         <NavigationLinks>
           {links.map((link, index) => (
-            <Link key={index} href={link.href} passHref>
+            <Link key={`${index}${link}`} href={link.href} passHref>
               <Button color="inherit">{link.text}</Button>
             </Link>
           ))}

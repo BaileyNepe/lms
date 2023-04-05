@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import React from "react";
 import styled from "styled-components";
 import { footerLinks, socials } from "~/routes";
 
@@ -18,7 +17,7 @@ const StyledFooter = styled(Box)`
   padding: 1.5rem 0;
 `;
 
-const FooterLink = styled(MuiLink)`
+const FooterLink = styled.div`
   color: inherit;
   text-decoration: none;
   color: ${({ theme }) => theme.palette.common.white};
@@ -58,7 +57,7 @@ const Footer = () => {
             </BoldTypography>
             <Box>
               {footerLinks.map((link, index) => (
-                <Link key={index} href={link.href} passHref>
+                <Link key={`${link}${index}`} href={link.href} passHref>
                   <FooterLink>
                     <Typography>{link.text}</Typography>
                   </FooterLink>
@@ -73,7 +72,7 @@ const Footer = () => {
             <Box>
               {socials.map((social, index) => (
                 <MuiLink
-                  key={index}
+                  key={`${social}${index}`}
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
