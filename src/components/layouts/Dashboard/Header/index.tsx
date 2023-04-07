@@ -3,7 +3,7 @@ import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // project imports
-import LogoSection from "~/components/LogoSection";
+import LogoSection from "~/components/ui/atoms/LogoSection";
 import { useDispatch, useSelector } from "~/store";
 import { openDrawer } from "~/store/slices/menu";
 import MobileSection from "../MobileSection";

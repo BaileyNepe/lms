@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 // third-party
 
 // project imports
-import Transitions from "~/components/Transitions";
+import Transitions from "~/components/ui/molecules/Transitions";
 
 // assets
 import { IconBell } from "@tabler/icons";

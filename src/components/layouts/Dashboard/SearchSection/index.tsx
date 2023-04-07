@@ -16,7 +16,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import PopupState, { bindPopper, bindToggle } from "material-ui-popup-state";
 
 // project imports
-import Transitions from "~/components/Transitions";
+import Transitions from "~/components/ui/molecules/Transitions";
 
 // assets
 import { shouldForwardProp } from "@mui/system";

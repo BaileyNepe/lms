@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import styled from "styled-components";
-import Auth from "../Auth";
+import Auth from "../../atoms/Auth";
 
 const StyledAppBar = styled(AppBar)`
   background-color: ${({ theme }) => theme.palette.primary.main};

@@ -1,6 +1,6 @@
 import React from "react";
-import { withAuthDashboard } from "~/HOC/withDashboardLayout";
-import DashboardLayout from "~/layouts/Dashboard";
+import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
+import DashboardLayout from "~/components/layouts/Dashboard";
 
 const Dashboard = () => {
   return <div>Dashboard</div>;

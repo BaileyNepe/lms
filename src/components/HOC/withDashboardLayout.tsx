@@ -1,6 +1,6 @@
 // components/withDashboardLayout.tsx or hocs/withDashboardLayout.tsx
 import React, { ComponentType } from "react";
-import DashboardLayout from "~/layouts/Dashboard";
+import DashboardLayout from "~/components/layouts/Dashboard";
 import withAuthentication from "./withAuthentication";
 
 const withDashboardLayout = <P extends object>(

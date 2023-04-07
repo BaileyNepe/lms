@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Footer from "~/components/Footer";
-import Header from "~/components/Header";
+import Footer from "~/components/ui/molecules/Footer";
+import Header from "~/components/ui/molecules/Header";
 import { homeLinks } from "~/routes";
 import Meta from "../Meta";
 

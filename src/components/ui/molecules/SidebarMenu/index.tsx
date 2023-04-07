@@ -8,8 +8,8 @@ import { useTheme } from "@mui/material/styles";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 // project imports
-import LogoSection from "~/components/LogoSection";
-import MenuList from "~/components/MenuList";
+import LogoSection from "~/components/ui/atoms/LogoSection";
+import MenuList from "~/components/ui/atoms/MenuList";
 import { useDispatch, useSelector } from "~/store";
 import { openDrawer } from "~/store/slices/menu";
 import { DRAW_WIDTH } from "~/utils/constants";

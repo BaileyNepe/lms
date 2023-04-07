@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import styled, { ThemeConsumer, useTheme } from "styled-components";
-import { withAuthDashboard } from "~/HOC/withDashboardLayout";
+import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
 
 const assessmentOptions = [
   {

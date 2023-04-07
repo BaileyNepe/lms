@@ -13,7 +13,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 
 // project imports
-import Transitions from "~/components/Transitions";
+import Transitions from "~/components/ui/molecules/Transitions";
 
 // assets
 import { IconDotsVertical } from "@tabler/icons";

@@ -8,7 +8,7 @@ import { useTheme } from "@mui/material/styles";
 
 // project imports
 import User1 from "~/assets/images/users/user-round.svg";
-import Transitions from "~/components/Transitions";
+import Transitions from "~/components/ui/molecules/Transitions";
 
 // assets
 import { IconSettings } from "@tabler/icons";
