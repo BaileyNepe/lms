@@ -4,8 +4,8 @@ import { memo } from "react";
 import { Typography } from "@mui/material";
 
 // project imports
+import menuItem from "~/components/routes/menu-items";
 import NavGroup from "~/components/ui/molecules/NavGroup";
-import menuItem from "~/routes/menu-items";
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 

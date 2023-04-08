@@ -19,15 +19,15 @@ import { useTheme } from "@mui/material/styles";
 
 // project imports
 
-import useConfig from "~/utils/hooks/useConfig";
+import useConfig from "~/components/utils/hooks/useConfig";
 
 // assets
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 // types
 import Link from "next/link";
-import { dispatch, useDispatch, useSelector } from "~/store";
-import { activeItem, openDrawer } from "~/store/slices/menu";
+import { dispatch, useDispatch, useSelector } from "~/components/store";
+import { activeItem, openDrawer } from "~/components/store/slices/menu";
 import { LinkTarget, NavItemType } from "~/types/navItems";
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //

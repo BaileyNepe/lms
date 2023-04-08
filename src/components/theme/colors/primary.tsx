@@ -1,4 +1,4 @@
-import colors from "./";
+import colors from ".";
 
 export default {
   // paper & background

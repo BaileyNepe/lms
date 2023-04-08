@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 // third-party
 
 // project imports
-import User1 from "~/assets/images/users/user-round.svg";
+import User1 from "public/assets/images/users/user-round.svg";
 import Transitions from "~/components/ui/molecules/Transitions";
 
 // assets

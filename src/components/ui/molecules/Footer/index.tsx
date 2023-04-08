@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import styled from "styled-components";
-import { footerLinks, socials } from "~/routes";
+import { footerLinks, socials } from "~/components/routes";
 
 const StyledFooter = styled(Box)`
   ${({ theme }) =>

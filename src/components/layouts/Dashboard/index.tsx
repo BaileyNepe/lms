@@ -5,9 +5,9 @@ import { AppBar, Box, Toolbar, useMediaQuery } from "@mui/material";
 import { styled, Theme, useTheme } from "@mui/material/styles";
 
 // project imports
+import { useDispatch, useSelector } from "~/components/store";
+import { openDrawer } from "~/components/store/slices/menu";
 import Sidebar from "~/components/ui/molecules/SidebarMenu";
-import { useDispatch, useSelector } from "~/store";
-import { openDrawer } from "~/store/slices/menu";
 import Header from "./Header";
 
 // assets

@@ -8,11 +8,11 @@ import { useTheme } from "@mui/material/styles";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 // project imports
+import { useDispatch, useSelector } from "~/components/store";
+import { openDrawer } from "~/components/store/slices/menu";
 import LogoSection from "~/components/ui/atoms/LogoSection";
 import MenuList from "~/components/ui/atoms/MenuList";
-import { useDispatch, useSelector } from "~/store";
-import { openDrawer } from "~/store/slices/menu";
-import { DRAW_WIDTH } from "~/utils/constants";
+import { DRAW_WIDTH } from "~/components/utils/constants";
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 

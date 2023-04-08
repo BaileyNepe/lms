@@ -13,7 +13,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 
 // project imports
-import useConfig from "~/utils/hooks/useConfig";
+import useConfig from "~/components/utils/hooks/useConfig";
 import NavItem from "../NavItem";
 
 // assets

@@ -3,9 +3,9 @@ import { Avatar, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // project imports
+import { useDispatch, useSelector } from "~/components/store";
+import { openDrawer } from "~/components/store/slices/menu";
 import LogoSection from "~/components/ui/atoms/LogoSection";
-import { useDispatch, useSelector } from "~/store";
-import { openDrawer } from "~/store/slices/menu";
 import MobileSection from "../MobileSection";
 import NotificationSection from "../NotificationSection";
 import ProfileSection from "../ProfileSection";
