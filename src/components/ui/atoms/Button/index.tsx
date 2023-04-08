@@ -1,6 +1,12 @@
 import { Button as ButtonBase } from "@mui/material";
 import styled from "styled-components";
 
+const ButtonStyles = styled(ButtonBase)`
+  && {
+    text-decoration: none;
+  }
+`;
+
 const Button = ({
   onClick,
   component,
@@ -20,7 +26,7 @@ const Button = ({
   component?: React.ElementType;
 }) => {
   return (
-    <ButtonBase
+    <ButtonStyles
       onClick={onClick}
       {...props}
       href={href}
@@ -29,7 +35,7 @@ const Button = ({
       type={type}
     >
       {children}
-    </ButtonBase>
+    </ButtonStyles>
   );
 };
 

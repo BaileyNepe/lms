@@ -69,7 +69,9 @@ const Header = ({ links }: { links: { text: string; href: string }[] }) => {
         <NavigationLinks>
           {links.map((link, index) => (
             <Link key={`${index}${link}`} href={link.href} passHref>
-              <Button color="inherit">{link.text}</Button>
+              <Button variant="text" color="inherit">
+                {link.text}
+              </Button>
             </Link>
           ))}
           <Auth />
