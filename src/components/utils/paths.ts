@@ -8,12 +8,12 @@ export const paths = {
 
   dashboard: {
     index: "/dashboard",
-    assessments: {
-      index: "/dashboard/assessments",
-      create: "/dashboard/assessments/create",
-      edit: "/dashboard/assessments/edit/:id",
-      list: "/dashboard/assessments/list",
-    },
+  },
+  assessments: {
+    index: "/assessments",
+    create: "/assessments/create",
+    edit: "/assessments/edit/:id",
+    list: "/assessments/list",
   },
 
   401: "/401",

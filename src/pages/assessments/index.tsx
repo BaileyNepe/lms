@@ -1,38 +1,51 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import styled, { ThemeConsumer, useTheme } from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
+import Button from "~/components/ui/atoms/Button";
+import { RouterLink } from "~/components/ui/atoms/RouterLink";
+import { paths } from "~/components/utils/paths";
 
 const assessmentOptions = [
-  {
-    title: "View User Results",
-    description: "View detailed results and analytics for user assessments.",
-    href: "/assessments/analytics",
-    action: "View",
-  },
+  // {
+  //   title: "View User Results",
+  //   description: "View detailed results and analytics for user assessments.",
+  //   href: "/assessments/analytics",
+  //   action: "View",
+  // },
   {
     title: "Create an Assessment",
     description: "Create a new assessment for users to take.",
-    href: "/assessments/create",
+    href: paths.assessments.create,
     action: "Create",
   },
   {
     title: "View Assessments List",
     description: "View a list of all available assessments.",
-    href: "/assessments/list",
+    href: paths.assessments.list,
     action: "View",
   },
   // Add more navigation options here as needed
 ];
+
+const CardContainer = styled(Card)`
+  display: grid;
+  grid-template-rows: auto min-content;
+  height: 100%;
+  box-shadow: ${({ theme }) => theme.customShadows.z1};
+`;
+
+const CardAction = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  .MuiButtonBase-root {
+    white-space: nowrap;
+    width: 100%;
+    padding: ${({ theme }) => theme.spacing(1)};
+  }
+`;
 
 const AssessmentCard = styled(
   ({
@@ -48,9 +61,17 @@ const AssessmentCard = styled(
     action: string;
   }) => (
     <Grid item xs={12} sm={6} {...props}>
-      <Card sx={{ height: "100%", boxShadow: useTheme().customShadows.z1 }}>
+      <CardContainer>
         <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography variant="h5" fontWeight="bold" gutterBottom>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            gutterBottom
+            sx={{
+              mb: 3,
+              mt: 1,
+            }}
+          >
             {title}
           </Typography>
           <Typography
@@ -60,25 +81,32 @@ const AssessmentCard = styled(
             {description}
           </Typography>
         </CardContent>
-        <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto" }}>
-          <Link href={href} passHref>
-            <Button variant="outlined" color="secondary">
-              {action}
-            </Button>
-          </Link>
-        </CardActions>
-      </Card>
+        <CardAction>
+          <Button component={RouterLink} href={href}>
+            {action}
+          </Button>
+        </CardAction>
+      </CardContainer>
     </Grid>
   )
 )``;
 
+const Container = styled.div`
+  padding: ${({ theme }) => theme.spacing(1)};
+  text-align: center;
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    padding: ${({ theme }) => theme.spacing(2)};
+    text-align: left;
+  }
+`;
+
 const Assessments = () => {
   return (
     <Container>
-      <Typography variant="h2" sx={{ mt: 4, mb: 6, textAlign: "center" }}>
+      <Typography variant="h2" sx={{ mt: 4, mb: 6 }}>
         Assessments
       </Typography>
-      <Grid container spacing={4} justifyContent="center">
+      <Grid container spacing={4}>
         {assessmentOptions.map((option, index) => (
           <AssessmentCard key={index} {...option} />
         ))}
