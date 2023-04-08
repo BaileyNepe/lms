@@ -4,19 +4,22 @@ import { createTheme } from "@mui/material/styles";
 
 // assets
 import primaryTheme from "./colors/primary";
+import secondaryTheme from "./colors/secondary";
 
 // ==============================|| DEFAULT THEME - PALETTE  ||============================== //
 
 const Palette = (navType: PaletteMode, presetColor: string) => {
   let colors;
   switch (presetColor) {
+    case "theme2":
+      colors = secondaryTheme;
     case "theme1":
-      colors = primaryTheme;
+      colors = secondaryTheme;
       break;
 
     case "default":
     default:
-      colors = primaryTheme;
+      colors = secondaryTheme;
   }
 
   return createTheme({

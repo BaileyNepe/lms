@@ -7,13 +7,11 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { PaletteMode } from "@mui/material";
 
 const defaultConfig = {
-  fontFamily: "'Roboto', sans-serif",
+  fontFamily: "'Plus Jakarta Sans', sans-serif",
   borderRadius: 8,
   outlinedFilled: true,
-  navType: "light" as PaletteMode, // light, dark
-  presetColor: "default", // default, theme1, theme2, theme3, theme4, theme5, theme6
-  locale: "en", // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
-  rtlLayout: false,
+  navType: "dark" as PaletteMode, // light, dark
+  presetColor: "theme2", // default, theme1, theme2, theme3, theme4, theme5, theme6
   container: false,
 };
 
@@ -22,7 +20,6 @@ const initialState = {
   ...defaultConfig,
   onChangeMenuType: () => {},
   onChangePresetColor: () => {},
-  onChangeLocale: () => {},
   onChangeContainer: () => {},
   onChangeFontFamily: () => {},
   onChangeBorderRadius: () => {},
@@ -38,14 +35,12 @@ type ConfigProviderProps = {
 };
 
 function ConfigProvider({ children }: ConfigProviderProps) {
-  const [config, setConfig] = useLocalStorage("berry-config", {
+  const [config, setConfig] = useLocalStorage("theme-config", {
     fontFamily: initialState.fontFamily,
     borderRadius: initialState.borderRadius,
     outlinedFilled: initialState.outlinedFilled,
     navType: initialState.navType,
     presetColor: initialState.presetColor,
-    locale: initialState.locale,
-    rtlLayout: initialState.rtlLayout,
   });
 
   const onChangeMenuType = (navType: PaletteMode) => {
@@ -59,13 +54,6 @@ function ConfigProvider({ children }: ConfigProviderProps) {
     setConfig({
       ...config,
       presetColor,
-    });
-  };
-
-  const onChangeLocale = (locale: string) => {
-    setConfig({
-      ...config,
-      locale,
     });
   };
 
@@ -103,7 +91,6 @@ function ConfigProvider({ children }: ConfigProviderProps) {
         ...config,
         onChangeMenuType,
         onChangePresetColor,
-        onChangeLocale,
         onChangeContainer,
         onChangeFontFamily,
         onChangeBorderRadius,

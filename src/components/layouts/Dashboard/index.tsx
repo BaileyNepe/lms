@@ -86,7 +86,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         enableColorOnDark
         position="fixed"
         color="inherit"
-        elevation={0}
+        elevation={2}
         sx={{
           bgcolor: theme.palette.background.default,
           transition: drawerOpen ? theme.transitions.create("width") : "none",

@@ -9,10 +9,9 @@ import LogoSection from "~/components/ui/atoms/LogoSection";
 import MobileSection from "../MobileSection";
 import NotificationSection from "../NotificationSection";
 import ProfileSection from "../ProfileSection";
-import SearchSection from "../SearchSection";
 
 // assets
-import { IconMenu2 } from "@tabler/icons";
+import { Close, Menu } from "@mui/icons-material";
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -24,10 +23,9 @@ const Header = () => {
 
   return (
     <>
-      {/* logo & toggler button */}
       <Box
         sx={{
-          width: 228,
+          width: 0,
           display: "flex",
           [theme.breakpoints.down("md")]: {
             width: "auto",
@@ -37,9 +35,7 @@ const Header = () => {
         <Box
           component="span"
           sx={{ display: { xs: "none", md: "block" }, flexGrow: 1 }}
-        >
-          <LogoSection />
-        </Box>
+        ></Box>
         <Avatar
           variant="rounded"
           sx={{
@@ -69,17 +65,12 @@ const Header = () => {
           onClick={() => dispatch(openDrawer(!drawerOpen))}
           color="inherit"
         >
-          <IconMenu2 />
+          {!drawerOpen ? <Menu /> : <Close />}
         </Avatar>
       </Box>
-
-      {/* header search */}
-      <SearchSection />
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ flexGrow: 1 }} />
 
-      {/* notification & profile */}
-      <NotificationSection />
       <ProfileSection />
 
       {/* mobile header */}
