@@ -36,7 +36,7 @@ const CardContainer = styled(Card)`
   box-shadow: ${({ theme }) => theme.customShadows.z1};
 `;
 
-const CardAction = styled.div`
+const CardAction = styled(RouterLink)`
   display: flex;
   justify-content: flex-end;
 
@@ -44,6 +44,11 @@ const CardAction = styled.div`
     white-space: nowrap;
     width: 100%;
     padding: ${({ theme }) => theme.spacing(1)};
+    background-color: ${({ theme }) => theme.palette.primary.main};
+  }
+
+  .MuiButtonBase-root:hover {
+    background-color: ${({ theme }) => theme.palette.primary.dark};
   }
 `;
 
@@ -81,10 +86,8 @@ const AssessmentCard = styled(
             {description}
           </Typography>
         </CardContent>
-        <CardAction>
-          <Button component={RouterLink} href={href}>
-            {action}
-          </Button>
+        <CardAction href={href} passHref>
+          <Button color="primary">{action}</Button>
         </CardAction>
       </CardContainer>
     </Grid>

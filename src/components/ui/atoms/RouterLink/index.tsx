@@ -7,7 +7,14 @@ import { forwardRef, Ref } from "react";
  * We use this to help us maintain consistency in our codebase.
  */
 export const RouterLink = forwardRef(
-  (props: LinkProps, ref: Ref<HTMLAnchorElement>) => (
-    <Link ref={ref} {...props} />
+  (
+    props: LinkProps & {
+      children?: React.ReactNode;
+    },
+    ref: Ref<HTMLAnchorElement>
+  ) => (
+    <Link ref={ref} {...props}>
+      {props.children}
+    </Link>
   )
 );

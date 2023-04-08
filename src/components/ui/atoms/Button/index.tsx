@@ -22,7 +22,7 @@ const Button = ({
       {...props}
       href={href}
       variant={variant}
-      color={"primary"}
+      color={color}
     >
       {children}
     </ButtonBase>
