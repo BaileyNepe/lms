@@ -9,8 +9,8 @@ export const assessmentRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        title: z.string(),
-        quizTypeId: z.string(),
+        title: z.string().min(1),
+        quizTypeId: z.string().cuid(),
       })
     )
     .mutation(({ ctx, input }) => {

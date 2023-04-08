@@ -1,30 +1,11 @@
 import { Container, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
 import { configSchema } from "~/components/ui/molecules/FormFields/types";
 import SimpleForm from "~/components/ui/molecules/SimpleForm";
 import { api } from "~/components/utils/api";
 import { paths } from "~/components/utils/paths";
-
-const createAssessmentConfig = {
-  title: "Create Assessment",
-  fields: [
-    {
-      name: "name",
-      label: "Name",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "quizType",
-      label: "Type",
-      type: "select",
-      required: true,
-      options: [],
-    },
-  ],
-};
 
 const Create = () => {
   const router = useRouter();
@@ -35,31 +16,40 @@ const Create = () => {
   const [value, setValue] = useState({ name: "", quizType: "" });
 
   const config = {
-    ...createAssessmentConfig,
-    fields: createAssessmentConfig.fields.map((field) => {
-      if (field.name === "quizType") {
-        return {
-          ...field,
-          options:
-            quizTypes?.map(({ id, label }) => ({ value: id, label })) ?? [],
-        };
-      }
-      return field;
-    }),
+    title: "Create Assessment",
+    fields: [
+      {
+        name: "name",
+        label: "Name",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "quizType",
+        label: "Type",
+        type: "select",
+        required: true,
+        options:
+          quizTypes?.map(({ id, label }) => ({ value: id, label })) ?? [],
+      },
+    ],
   };
 
   const handleChange = (e: { target: { name: string; value: string } }) => {
     setValue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleCreate = () => {
+  const handleCreate = (e: any) => {
+    const formData = new FormData(e.currentTarget);
+
+    console.log(formData);
+
     mutate({ title: value.name, quizTypeId: value.quizType });
 
     if (error) {
-      console.log({ error });
-      return;
+      console.log(error.data?.zodError?.fieldErrors);
     }
-
+    return;
     router.push(paths.assessments.index);
   };
 

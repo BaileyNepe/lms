@@ -30,7 +30,6 @@ const FormFields = ({
                   name={field.name}
                   type="text"
                   id={field.name}
-                  defaultValue={value[field.name]}
                   aria-describedby={field.name}
                   value={value[field.name]}
                   onChange={handleChange}

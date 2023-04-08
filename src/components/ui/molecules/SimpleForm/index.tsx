@@ -1,3 +1,4 @@
+import { FormEvent } from "react";
 import styled from "styled-components";
 import FormFields from "~/components/ui/molecules/FormFields";
 import Button from "../../atoms/Button";
@@ -23,7 +24,7 @@ const SimpleForm = ({
   buttonLabel = "Submit",
 }: {
   config: ConfigType;
-  handleCreate: () => void;
+  handleCreate: (event: FormEvent) => void;
   handleChange: (event: any) => void;
   value: { [key: string]: string | boolean | number | undefined };
   buttonLabel?: string;
@@ -32,7 +33,7 @@ const SimpleForm = ({
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        handleCreate();
+        handleCreate(e);
       }}
     >
       <FormFields config={config} handleChange={handleChange} value={value} />
