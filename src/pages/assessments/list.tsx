@@ -1,4 +1,6 @@
 import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import { useState } from "react";
 import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
 import Loader from "~/components/ui/atoms/Loader";
 import { EnhancedTable } from "~/components/ui/organisms/EnhancedTable";
@@ -53,16 +55,19 @@ export const headCells: HeadCell[] = [
 ];
 
 const List = () => {
+  const [limit, setLimit] = useState(1);
+  const [offset, setOffset] = useState(0);
+
   const {
     data: assessments,
     error,
     isLoading,
   } = api.assessment.list.useQuery({
-    limit: 10,
-    offset: 0,
+    limit,
+    offset,
   });
 
-  const rows = assessments?.map(
+  const rows = assessments?.data.map(
     (assessment) =>
       ({
         id: assessment.id,
@@ -97,7 +102,22 @@ const List = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <EnhancedTable rows={rows} headCells={headCells} />
+    <>
+      <EnhancedTable
+        rows={rows}
+        headCells={headCells}
+        tableTitle="Assessments"
+        count={assessments?.total}
+        page={offset}
+        perPage={limit}
+        handlePageChange={(newPage) => {
+          setOffset(newPage);
+        }}
+        handlePerPageChange={(newPerPage) => {
+          setLimit(newPerPage);
+        }}
+      />
+    </>
   );
 };
 

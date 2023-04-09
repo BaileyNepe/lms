@@ -51,9 +51,17 @@ export const assessmentRouter = createTRPCRouter({
         },
       });
 
-      return assessments.map((assessment) => ({
+      // get total number of assessments
+      const total = await ctx.prisma.assessment.count();
+
+      const data = assessments.map((assessment) => ({
         ...assessment,
         totalQuestions: assessment.questions.length,
       }));
+
+      return {
+        data,
+        total,
+      };
     }),
 });

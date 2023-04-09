@@ -22,10 +22,20 @@ export const EnhancedTable = ({
   headCells,
   tableTitle,
   create,
+  page = 0,
+  perPage = 25,
+  handlePageChange,
+  handlePerPageChange,
+  count = 0,
 }: {
   headCells: { [key: string]: any }[];
+  page: number;
+  perPage: number;
+  handlePageChange: (page: number) => void;
+  handlePerPageChange: (perPage: number) => void;
   rows?: Data[];
   tableTitle?: string;
+  count?: number;
   create?: {
     title: string;
     onClick: () => void;
@@ -33,9 +43,6 @@ export const EnhancedTable = ({
 }) => {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Data>("title");
-
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const navigate = useRouter();
 
@@ -48,20 +55,16 @@ export const EnhancedTable = ({
     setOrderBy(property);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 25));
-    setPage(0);
+    handlePerPageChange(event.target.valueAsNumber);
+    handlePageChange(0);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - (rows?.length ?? 0)) : 0;
+    page > 0 ? Math.max(0, (1 + page) * perPage - (rows?.length ?? 0)) : 0;
 
   return (
     <Box>
@@ -78,7 +81,7 @@ export const EnhancedTable = ({
             />
             <TableBody>
               {rows
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ?.slice(page * perPage, page * perPage + perPage)
                 .map((row, index) => {
                   const labelId = `enhanced-table-${index}`;
 
@@ -166,10 +169,10 @@ export const EnhancedTable = ({
         <TablePagination
           rowsPerPageOptions={[25, 50, 100]}
           component="div"
-          count={rows?.length ?? 0}
-          rowsPerPage={rowsPerPage}
+          count={count}
+          rowsPerPage={perPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={(_, page) => handlePageChange(page)}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
