@@ -1,11 +1,11 @@
 import { Delete, Edit, Visibility } from "@mui/icons-material";
-import { Button } from "@mui/material";
 import { useState } from "react";
 import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
 import Loader from "~/components/ui/atoms/Loader";
 import { EnhancedTable } from "~/components/ui/organisms/EnhancedTable";
-import { HeadCell } from "~/components/ui/organisms/EnhancedTable/types";
+import { type HeadCell } from "~/components/ui/organisms/EnhancedTable/types";
 import { api } from "~/components/utils/api";
+import { paths } from "~/components/utils/paths";
 
 export const headCells: HeadCell[] = [
   {
@@ -57,47 +57,43 @@ export const headCells: HeadCell[] = [
 const List = () => {
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(25);
-
-  const {
-    data: assessments,
-    error,
-    isLoading,
-  } = api.assessment.list.useQuery({
+  const utils = api.useContext();
+  const { data: assessments, isLoading } = api.assessment.list.useQuery({
     limit: perPage,
     offset: page,
   });
+  const { mutate: deleteAssessment } = api.assessment.delete.useMutation({
+    onSettled: () => utils.assessment.list.invalidate(),
+  });
 
-  const rows = assessments?.data.map(
-    (assessment) =>
-      ({
-        id: assessment.id,
-        uniqueId: assessment.id,
-        title: assessment.title,
-        label: assessment.quizType.label,
-        totalQuestions: assessment.totalQuestions ?? 0,
-        // TODO remove 0
-        results: 0,
-        actions: [
-          {
-            description: "Preview",
-            icon: <Visibility />,
-            action: () => {},
-            link: `/assessment-attempt/${assessment.id}`,
-          },
-          {
-            description: "Edit",
-            icon: <Edit />,
-            action: () => {},
-            link: `/assessments/${assessment.id}`,
-          },
-          {
-            description: "Delete",
-            icon: <Delete />,
-            action: () => {},
-          },
-        ],
-      } ?? [])
-  );
+  const rows = assessments?.data.map((assessment) => ({
+    id: assessment.id,
+    uniqueId: assessment.id,
+    title: assessment.title,
+    label: assessment.quizType.label,
+    totalQuestions: assessment.totalQuestions ?? 0,
+    // TODO remove 0
+    results: 0,
+    actions: [
+      {
+        description: "Preview",
+        icon: <Visibility />,
+        action: () => {},
+        link: paths.assessments.preview.attempt(assessment.id),
+      },
+      {
+        description: "Edit",
+        icon: <Edit />,
+        action: () => {},
+        link: paths.assessments.edit(assessment.id),
+      },
+      {
+        description: "Delete",
+        icon: <Delete />,
+        action: () => deleteAssessment(assessment.id),
+      },
+    ],
+  }));
 
   return isLoading ? (
     <Loader />
@@ -116,7 +112,6 @@ const List = () => {
         handlePerPageChange={(newPerPage) => {
           setPerPage(newPerPage);
         }}
-        rowsPerPageOptions={[25, 50, 100]}
       />
     </>
   );

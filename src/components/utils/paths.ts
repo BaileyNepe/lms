@@ -12,8 +12,12 @@ export const paths = {
   assessments: {
     index: "/assessments",
     create: "/assessments/create",
-    edit: "/assessments/edit/:id",
+    // :id is a placeholder for the assessment id
+    edit: (id: string) => `/assessments/${id}/edit`,
     list: "/assessments/list",
+    preview: {
+      attempt: (id: string) => `/assessments/preview/${id}/attempt`,
+    },
   },
 
   401: "/401",

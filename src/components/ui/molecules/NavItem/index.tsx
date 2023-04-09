@@ -88,7 +88,6 @@ const NavItem = ({ item, level }: { item: NavItemType; level: number }) => {
     if (currentIndex > -1 && item.id) {
       dispatch(activeItem([item.id]));
     }
-    // eslint-disable-next-line
   }, [pathname]);
 
   return (

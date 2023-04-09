@@ -16,8 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import Transitions from "~/components/ui/molecules/Transitions";
 
 // assets
-import { IconDotsVertical } from "@tabler/icons";
-
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 // ==============================|| MOBILE HEADER ||============================== //
 
 const MobileSection = () => {
@@ -25,27 +24,23 @@ const MobileSection = () => {
   const matchMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [open, setOpen] = useState(false);
-  /**
-   * anchorRef is used on different componets and specifying one type leads to other components throwing an error
-   * */
-  const anchorRef = useRef<any>(null);
+
+  const anchorRef = useRef<HTMLDivElement | HTMLButtonElement | null>(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
+    if (anchorRef.current?.contains(event.target as HTMLElement)) return;
 
     setOpen(false);
   };
 
   const prevOpen = useRef(open);
   useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
+    if (prevOpen.current && !open) {
+      anchorRef.current?.focus();
     }
 
     prevOpen.current = open;
@@ -62,7 +57,7 @@ const MobileSection = () => {
           }}
           onClick={handleToggle}
         >
-          <IconDotsVertical
+          <MoreVertIcon
             aria-controls={open ? "menu-list-grow" : undefined}
             aria-haspopup="true"
           />

@@ -29,8 +29,7 @@ export interface EnhancedTableProps {
   order: Order;
   orderBy: string | number;
   rowCount: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  headCells: { [key: string]: any }[];
+  headCells: { [key: string]: unknown }[];
 }
 
 export interface EnhancedTableToolbarProps {

@@ -39,18 +39,15 @@ const Create = () => {
     setValue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleCreate = (e: any) => {
-    const formData = new FormData(e.currentTarget);
-
-    console.log(formData);
-
+  const handleCreate = () => {
     mutate({ title: value.name, quizTypeId: value.quizType });
 
     if (error) {
       console.log(error.data?.zodError?.fieldErrors);
+      return;
     }
-    return;
-    router.push(paths.assessments.index);
+
+    router.push(paths.assessments.list);
   };
 
   return (

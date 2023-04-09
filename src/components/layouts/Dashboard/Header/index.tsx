@@ -5,10 +5,8 @@ import { useTheme } from "@mui/material/styles";
 // project imports
 import { useDispatch, useSelector } from "~/components/store";
 import { openDrawer } from "~/components/store/slices/menu";
-import LogoSection from "~/components/ui/atoms/LogoSection";
+
 import MobileSection from "../MobileSection";
-import NotificationSection from "../NotificationSection";
-import ProfileSection from "../ProfileSection";
 
 // assets
 import { Close, Menu } from "@mui/icons-material";
@@ -70,8 +68,6 @@ const Header = () => {
       </Box>
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ flexGrow: 1 }} />
-
-      <ProfileSection />
 
       {/* mobile header */}
       <Box sx={{ display: { xs: "block", sm: "none" } }}>

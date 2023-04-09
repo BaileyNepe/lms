@@ -15,7 +15,7 @@ import MenuPopup from "~/components/ui/molecules/MenuPopup";
 import { isNumber } from "~/components/utils/sorter";
 import { EnhancedTableHead } from "./header";
 import { EnhancedTableToolbar } from "./toolbar";
-import { ActionsSchema, Data, Order } from "./types";
+import { Data, Order } from "./types";
 
 export const EnhancedTable = ({
   rows,
@@ -113,7 +113,7 @@ export const EnhancedTable = ({
                           }
 
                           if (key === "actions" && Array.isArray(row[key])) {
-                            const actions = ActionsSchema.parse(row[key]);
+                            const actions = row[key];
 
                             const newActions = actions.map((action) => {
                               if (
@@ -127,7 +127,7 @@ export const EnhancedTable = ({
 
                               return {
                                 description: action.description,
-                                icon: action.icon as JSX.Element,
+                                icon: action.icon,
                                 action: action.action ?? (() => {}),
                               };
                             });
@@ -167,7 +167,7 @@ export const EnhancedTable = ({
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[25, 50, 100]}
+          rowsPerPageOptions={rowsPerPageOptions}
           component="div"
           count={count}
           rowsPerPage={perPage}

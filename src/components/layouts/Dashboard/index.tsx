@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 // material-ui
 import { AppBar, Box, Toolbar, useMediaQuery } from "@mui/material";
-import { styled, Theme, useTheme } from "@mui/material/styles";
+import { styled, useTheme, type Theme } from "@mui/material/styles";
 
 // project imports
 import { useDispatch, useSelector } from "~/components/store";

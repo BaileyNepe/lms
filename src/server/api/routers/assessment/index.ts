@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const assessmentRouter = createTRPCRouter({
   create: protectedProcedure
@@ -13,14 +9,14 @@ export const assessmentRouter = createTRPCRouter({
         quizTypeId: z.string().cuid(),
       })
     )
-    .mutation(({ ctx, input }) => {
-      return ctx.prisma.assessment.create({
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.assessment.create({
         data: {
           title: input.title,
           quizTypeId: input.quizTypeId,
         },
-      });
-    }),
+      })
+    ),
   list: protectedProcedure
     .input(
       z.object({
@@ -63,5 +59,17 @@ export const assessmentRouter = createTRPCRouter({
         data,
         total,
       };
+    }),
+  delete: protectedProcedure
+    .input(z.string().cuid())
+    .mutation(async ({ ctx, input }) => {
+      // delete assessment with id
+      await ctx.prisma.assessment.delete({
+        where: {
+          id: input,
+        },
+      });
+
+      return true;
     }),
 });

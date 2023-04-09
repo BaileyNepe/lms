@@ -1,4 +1,5 @@
 import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Container } from "@mui/system";
 import Link from "next/link";
 import React from "react";
 import styled, { useTheme } from "styled-components";
@@ -94,7 +95,7 @@ const AssessmentCard = styled(
   )
 )``;
 
-const Container = styled.div`
+const PreContainer = styled.div`
   padding: ${({ theme }) => theme.spacing(1)};
   text-align: center;
   ${({ theme }) => theme.breakpoints.up("md")} {
@@ -105,16 +106,18 @@ const Container = styled.div`
 
 const Assessments = () => {
   return (
-    <Container>
-      <Typography variant="h2" sx={{ mt: 4, mb: 6 }}>
-        Assessments
-      </Typography>
-      <Grid container spacing={4}>
-        {assessmentOptions.map((option, index) => (
-          <AssessmentCard key={index} {...option} />
-        ))}
-      </Grid>
-    </Container>
+    <PreContainer>
+      <Container>
+        <Typography variant="h2" sx={{ mt: 4, mb: 6 }}>
+          Assessments
+        </Typography>
+        <Grid container spacing={4}>
+          {assessmentOptions.map((option, index) => (
+            <AssessmentCard key={index} {...option} />
+          ))}
+        </Grid>
+      </Container>
+    </PreContainer>
   );
 };
 export default withAuthDashboard(Assessments);
