@@ -27,6 +27,7 @@ export const EnhancedTable = ({
   handlePageChange,
   handlePerPageChange,
   count = 0,
+  rowsPerPageOptions = [25, 50, 100],
 }: {
   headCells: { [key: string]: any }[];
   page: number;
@@ -36,6 +37,7 @@ export const EnhancedTable = ({
   rows?: Data[];
   tableTitle?: string;
   count?: number;
+  rowsPerPageOptions?: number[];
   create?: {
     title: string;
     onClick: () => void;
@@ -58,13 +60,13 @@ export const EnhancedTable = ({
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    handlePerPageChange(event.target.valueAsNumber);
+    handlePerPageChange(parseInt(event.target.value, 10));
     handlePageChange(0);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * perPage - (rows?.length ?? 0)) : 0;
+    page > 0 ? Math.max(0, (1 + page) * perPage - (count ?? 0)) : 0;
 
   return (
     <Box>
@@ -80,79 +82,77 @@ export const EnhancedTable = ({
               headCells={headCells}
             />
             <TableBody>
-              {rows
-                ?.slice(page * perPage, page * perPage + perPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-${index}`;
+              {rows?.map((row, index) => {
+                const labelId = `enhanced-table-${index}`;
 
-                  return (
-                    <TableRow hover key={row.id}>
-                      <>
-                        {Object.keys(row)
-                          .filter((key) => key !== "uniqueId")
-                          .map((key) => {
-                            if (
-                              typeof row[key] === "string" ||
-                              typeof row[key] === "number"
-                            ) {
-                              return (
-                                <TableCell
-                                  key={key}
-                                  component="td"
-                                  id={labelId}
-                                  scope="row"
-                                  align={
-                                    isNumber(row[key] as number | string)
-                                      ? "right"
-                                      : "left"
-                                  }
-                                >
-                                  {row[key] as string | number}
-                                </TableCell>
-                              );
-                            }
-
-                            if (key === "actions" && Array.isArray(row[key])) {
-                              const actions = ActionsSchema.parse(row[key]);
-
-                              const newActions = actions.map((action) => {
-                                if (
-                                  action?.link &&
-                                  typeof action.link === "string"
-                                ) {
-                                  action.action = () => {
-                                    if (action.link) navigate.push(action.link);
-                                  };
+                return (
+                  <TableRow hover key={row.id}>
+                    <>
+                      {Object.keys(row)
+                        .filter((key) => key !== "uniqueId")
+                        .map((key) => {
+                          if (
+                            typeof row[key] === "string" ||
+                            typeof row[key] === "number"
+                          ) {
+                            return (
+                              <TableCell
+                                key={key}
+                                component="td"
+                                id={labelId}
+                                scope="row"
+                                align={
+                                  isNumber(row[key] as number | string)
+                                    ? "right"
+                                    : "left"
                                 }
+                              >
+                                {row[key] as string | number}
+                              </TableCell>
+                            );
+                          }
 
-                                return {
-                                  description: action.description,
-                                  icon: action.icon as JSX.Element,
-                                  action: action.action ?? (() => {}),
+                          if (key === "actions" && Array.isArray(row[key])) {
+                            const actions = ActionsSchema.parse(row[key]);
+
+                            const newActions = actions.map((action) => {
+                              if (
+                                action?.link &&
+                                typeof action.link === "string"
+                              ) {
+                                action.action = () => {
+                                  if (action.link) navigate.push(action.link);
                                 };
-                              });
+                              }
 
-                              return (
-                                <TableCell
-                                  key={key}
-                                  component="td"
-                                  id={labelId}
-                                  scope="row"
-                                  align="right"
-                                >
-                                  <Suspense fallback={<Loader />}>
-                                    <MenuPopup actions={newActions} />
-                                  </Suspense>
-                                </TableCell>
-                              );
-                            }
+                              return {
+                                description: action.description,
+                                icon: action.icon as JSX.Element,
+                                action: action.action ?? (() => {}),
+                              };
+                            });
 
-                            return null;
-                          })}
-                      </>
-                    </TableRow>
-                  );
-                })}
+                            return (
+                              <TableCell
+                                key={key}
+                                component="td"
+                                id={labelId}
+                                scope="row"
+                                align="right"
+                              >
+                                <Suspense fallback={<Loader />}>
+                                  <MenuPopup actions={newActions} />
+                                </Suspense>
+                              </TableCell>
+                            );
+                          }
+
+                          return null;
+                        })}
+                    </>
+                  </TableRow>
+                );
+              })}
               {emptyRows > 0 && (
                 <TableRow
                   style={{

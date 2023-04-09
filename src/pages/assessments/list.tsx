@@ -55,16 +55,16 @@ export const headCells: HeadCell[] = [
 ];
 
 const List = () => {
-  const [limit, setLimit] = useState(1);
-  const [offset, setOffset] = useState(0);
+  const [page, setPage] = useState(0);
+  const [perPage, setPerPage] = useState(25);
 
   const {
     data: assessments,
     error,
     isLoading,
   } = api.assessment.list.useQuery({
-    limit,
-    offset,
+    limit: perPage,
+    offset: page,
   });
 
   const rows = assessments?.data.map(
@@ -108,14 +108,15 @@ const List = () => {
         headCells={headCells}
         tableTitle="Assessments"
         count={assessments?.total}
-        page={offset}
-        perPage={limit}
+        page={page}
+        perPage={perPage}
         handlePageChange={(newPage) => {
-          setOffset(newPage);
+          setPage(newPage);
         }}
         handlePerPageChange={(newPerPage) => {
-          setLimit(newPerPage);
+          setPerPage(newPerPage);
         }}
+        rowsPerPageOptions={[25, 50, 100]}
       />
     </>
   );

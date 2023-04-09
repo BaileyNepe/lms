@@ -24,8 +24,8 @@ export const assessmentRouter = createTRPCRouter({
   list: protectedProcedure
     .input(
       z.object({
-        offset: z.number().min(0).optional(),
-        limit: z.number().min(1).optional(),
+        offset: z.number().min(0),
+        limit: z.number().min(1),
       })
     )
     .query(async ({ ctx, input }) => {
