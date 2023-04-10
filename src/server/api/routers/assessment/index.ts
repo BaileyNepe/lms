@@ -72,4 +72,42 @@ export const assessmentRouter = createTRPCRouter({
 
       return true;
     }),
+  getQuestions: protectedProcedure
+    .input(
+      z.object({
+        assessmentId: z.string().cuid(),
+        page: z.number().min(0),
+        perPage: z.number().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { assessmentId, page, perPage } = input;
+
+      const questions = await ctx.prisma.question.findMany({
+        where: {
+          assessments: {
+            some: {
+              assessmentId,
+            },
+          },
+        },
+        skip: page * perPage,
+        take: perPage,
+      });
+
+      const total = await ctx.prisma.question.count({
+        where: {
+          assessments: {
+            some: {
+              assessmentId,
+            },
+          },
+        },
+      });
+
+      return {
+        data: questions,
+        total,
+      };
+    }),
 });

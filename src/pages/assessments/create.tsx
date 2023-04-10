@@ -1,6 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
 import { configSchema } from "~/components/ui/molecules/FormFields/types";
 import SimpleForm from "~/components/ui/molecules/SimpleForm";
@@ -47,7 +47,7 @@ const Create = () => {
       return;
     }
 
-    router.push(paths.assessments.list);
+    void router.push(paths.assessments.list);
   };
 
   return (
