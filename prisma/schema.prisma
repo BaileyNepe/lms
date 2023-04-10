@@ -61,12 +61,12 @@ model VerificationToken {
 }
 
 model Answer {
-    id          String    @id @default(cuid()) @db.Uuid
+    id          String    @id @default(cuid())
     answerOrder Int       @default(autoincrement()) @map("answer_order")
     answer      String
     isCorrect   Boolean   @default(false) @map("is_correct")
     weighting   Int?      @default(100)
-    questionId  String    @map("question_id") @db.Uuid
+    questionId  String    @map("question_id")
     createdAt   DateTime? @default(now())
     updatedAt   DateTime? @updatedAt
     question    Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
@@ -74,8 +74,8 @@ model Answer {
 
 model AssessmentTopic {
     id          Int         @id @unique @default(autoincrement())
-    assessment  String?     @db.Uuid
-    topic       String?     @db.Uuid
+    assessment  String?
+    topic       String?
     createdAt   DateTime?   @default(now())
     updatedAt   DateTime?   @updatedAt
     assessments Assessment? @relation(fields: [assessment], references: [id], onUpdate: NoAction)
@@ -83,14 +83,14 @@ model AssessmentTopic {
 }
 
 model Assessment {
-    id                  String                 @id @default(cuid()) @db.Uuid
+    id                  String                 @id @default(cuid())
     title               String
     timed               Boolean?               @default(false)
     allowedTime         Int?                   @map("allowed_time")
     timePerTopic        Int?                   @map("time_per_topic")
     isRandom            Boolean?               @default(false) @map("is_random")
     totalQuestionsToAsk Int?                   @map("total_questions_to_ask")
-    quizTypeId          String                 @map("quiz_type_id") @db.Uuid
+    quizTypeId          String                 @map("quiz_type_id")
     createdAt           DateTime?              @default(now()) @map("created_at")
     updatedAt           DateTime?              @updatedAt @map("updated_at")
     topics              AssessmentTopic[]
@@ -101,8 +101,8 @@ model Assessment {
 
 model QuestionTopic {
     id         Int       @id @unique @default(autoincrement())
-    topicId    String    @db.Uuid
-    questionId String    @db.Uuid
+    topicId    String
+    questionId String
     createdAt  DateTime? @default(now()) @map("created_at")
     updatedAt  DateTime? @updatedAt @map("updated_at")
     question   Question  @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
@@ -110,7 +110,7 @@ model QuestionTopic {
 }
 
 model QuestionType {
-    id                      String     @id @default(cuid()) @db.Uuid
+    id                      String     @id @default(cuid())
     type                    String
     label                   String?
     description             String?
@@ -122,7 +122,7 @@ model QuestionType {
 }
 
 model Question {
-    id                    String                 @id @default(cuid()) @db.Uuid
+    id                    String                 @id @default(cuid())
     createdAt             DateTime?              @default(now()) @map("created_at")
     updatedAt             DateTime?              @updatedAt @map("updated_at")
     questionId            Int                    @default(autoincrement()) @map("question_id")
@@ -131,7 +131,7 @@ model Question {
     questionText          String?                @map("question_text")
     questionCode          String?                @map("question_code") @db.Char(10)
     explanation           String?
-    questionTypeId        String                 @map("question_type_id") @db.Uuid
+    questionTypeId        String                 @map("question_type_id")
     answers               Answer[]
     topics                QuestionTopic[]
     questionType          QuestionType           @relation(fields: [questionTypeId], references: [id], onUpdate: NoAction)
@@ -141,8 +141,8 @@ model Question {
 
 model QuestionToAssessment {
     id           Int        @id @unique @default(autoincrement())
-    assessmentId String     @map("assessment_id") @db.Uuid
-    questionId   String     @map("question_id") @db.Uuid
+    assessmentId String     @map("assessment_id")
+    questionId   String     @map("question_id")
     weight       Int        @default(100)
     created_at   DateTime?  @default(now())
     updated_at   DateTime?  @updatedAt
@@ -151,7 +151,7 @@ model QuestionToAssessment {
 }
 
 model QuizType {
-    id          String       @id @default(cuid()) @db.Uuid
+    id          String       @id @default(cuid())
     type        String
     label       String
     description String
@@ -161,7 +161,7 @@ model QuizType {
 }
 
 model Topic {
-    id          String            @id @default(cuid()) @db.Uuid
+    id          String            @id @default(cuid())
     topicName   String?           @map("topic_name")
     createdAt   DateTime?         @default(now()) @map("created_at")
     updatedAt   DateTime?         @updatedAt @map("updated_at")
@@ -170,9 +170,9 @@ model Topic {
 }
 
 model UserAssessment {
-    id                    String                 @id @unique @default(cuid()) @db.Uuid
+    id                    String                 @id @unique @default(cuid())
     userId                String                 @map("user_id")
-    assessmentId          String                 @map("assessment_id") @db.Uuid
+    assessmentId          String                 @map("assessment_id")
     startTime             DateTime?              @default(now()) @map("start_time")
     endTime               DateTime?              @map("end_time")
     completedTime         DateTime?              @map("completed_time")
@@ -187,8 +187,8 @@ model UserAssessment {
 
 model UserAssessmentResult {
     id                Int            @id @unique @default(autoincrement())
-    userAssessmentId  String         @map("user_assessment_id") @db.Uuid
-    questionId        String         @map("question_id") @db.Uuid
+    userAssessmentId  String         @map("user_assessment_id")
+    questionId        String         @map("question_id")
     order             Int            @default(0)
     /// Scale from 0 to 100 (0 = incorrect, 100 = correct)
     percentageCorrect Int            @default(0) @map("percentage_correct")

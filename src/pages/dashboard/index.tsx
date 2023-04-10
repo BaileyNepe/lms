@@ -1,8 +1,5 @@
-import React from "react";
-import DashboardLayout from "~/layouts/Dashboard";
+import { withAuthDashboard } from "~/components/HOC/withDashboardLayout";
 
-const Dashboard = () => {
-  return <DashboardLayout>Dashboard</DashboardLayout>;
-};
+const Dashboard = () => <div>Dashboard</div>;
 
-export default Dashboard;
+export default withAuthDashboard(Dashboard);
