@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { homeLinks } from "~/components/routes";
-import Footer from "~/components/ui/molecules/Footer";
-import Header from "~/components/ui/molecules/Header";
-import Meta from "../Meta";
+import type React from 'react';
+import styled from 'styled-components';
+import { homeLinks } from '~/components/routes';
+import Footer from '~/components/ui/molecules/Footer';
+import Header from '~/components/ui/molecules/Header';
+import Meta from '../Meta';
 
 const Layout = styled.div`
   display: grid;
@@ -28,22 +28,20 @@ const StandardLayout = ({
   keywords?: string;
   description?: string;
   image?: string;
-}) => {
-  return (
-    <>
-      <Meta
-        title={title}
-        keywords={keywords}
-        description={description}
-        image={image}
-      />
-      <Layout>
-        <Header links={homeLinks} />
-        <Main>{children}</Main>
-        <Footer />
-      </Layout>
-    </>
-  );
-};
+}) => (
+  <>
+    <Meta
+      title={title}
+      keywords={keywords}
+      description={description}
+      image={image}
+    />
+    <Layout>
+      <Header links={homeLinks} />
+      <Main>{children}</Main>
+      <Footer />
+    </Layout>
+  </>
+);
 
 export default StandardLayout;

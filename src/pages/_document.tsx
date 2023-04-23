@@ -1,14 +1,15 @@
+/* eslint-disable @next/next/no-page-custom-font */
 // _document.tsx
 
 import Document, {
-  DocumentContext,
   Head,
   Html,
   Main,
   NextScript,
-} from "next/document";
-import { FC } from "react";
-import { ServerStyleSheet } from "styled-components";
+  type DocumentContext,
+} from 'next/document';
+import { type FC } from 'react';
+import { ServerStyleSheet } from 'styled-components';
 
 const Fonts: FC = () => (
   <>
