@@ -13,7 +13,10 @@ export const paths = {
     index: '/assessments',
     create: '/assessments/create',
     // :id is a placeholder for the assessment id
-    edit: (id: string) => `/assessments/${id}/edit`,
+    edit: {
+      index: (id: string) => `/assessments/${id}/edit`,
+      addQuestion: (id: string) => `/assessments/${id}/question/add`,
+    },
     list: '/assessments/list',
     preview: {
       attempt: (id: string) => `/assessments/preview/${id}/attempt`,

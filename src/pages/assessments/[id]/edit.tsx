@@ -17,6 +17,7 @@ import { withAuthDashboard } from '~/components/HOC/withDashboardLayout';
 import ListActionItem from '~/components/ui/atoms/ListActionItem';
 import Loader from '~/components/ui/atoms/Loader';
 import { api } from '~/components/utils/api';
+import { paths } from '~/components/utils/paths';
 
 export const Display = styled.div`
   display: grid;
@@ -166,13 +167,14 @@ const mocks = {
 };
 
 const Edit = () => {
-  const { id } = useRouter().query;
+  const router = useRouter();
+  const { id } = router.query;
 
   const assessmentId = typeof id === 'string' ? id : '';
 
   const [pageIndex, setPageIndex] = useState('0');
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [page] = useState(1);
+  const [perPage] = useState(10);
 
   const {
     data: questions,
@@ -234,7 +236,9 @@ const Edit = () => {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    // navigate(`/assessments-questions/${id}`);
+                    void router.push(
+                      paths.assessments.edit.addQuestion(assessmentId)
+                    );
                   }}
                 >
                   + Add
